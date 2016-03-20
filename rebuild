@@ -1,0 +1,14 @@
+#!/bin/bash
+set -eo pipefail
+
+PROJECT=flask-mongo
+PROJECT_DB=flask-mongo-db
+PROJECT_DIR=/root/${PROJECT}
+cd ${PROJECT_DIR}
+CURRENT_ID=$(docker ps -a -q -f "name=${PROJECT}" -f "label=kind=app")
+if [ -n "${CURRENT_ID}" ];then
+  docker stop ${CURRENT_ID}
+  docker rm ${CURRENT_ID}
+fi
+docker build -t doubtingben/${PROJECT}:dev .
+docker run -d -P --link ${PROJECT_DB} --label kind="app" --name=${PROJECT} doubtingben/${PROJECT}:dev

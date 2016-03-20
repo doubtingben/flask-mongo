@@ -1,0 +1,1 @@
+docker run -d --name flask-mongo-db --label kind="db" -v /data/db mongo:3
