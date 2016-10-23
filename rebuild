@@ -3,10 +3,10 @@ set -eo pipefail
 
 PROJECT=flask-mongo
 PROJECT_DB=flask-mongo-db
-PROJECT_DIR=/root/${PROJECT}
+PROJECT_DIR=${PROJECT_DIR:-${HOME}/${PROJECT}}
 cd ${PROJECT_DIR}
 CURRENT_ID=$(docker ps -a -q -f "name=${PROJECT}" -f "label=kind=app")
-if [ -n "${CURRENT_ID}" ];then
+if [ ! -z ${CURRENT_ID} ];then
   docker stop ${CURRENT_ID}
   docker rm ${CURRENT_ID}
 fi

@@ -1,0 +1,20 @@
+version: '2'
+services:
+  db:
+    image: mongo:3
+    labels:
+      - "kind=db"
+    volumes:
+      - /data/db
+  web:
+    build: .
+    image: doubtingben/flask-mongo:dev
+    volumes:
+      - .:/code
+    ports:
+      - "5000:5000"
+    labels:
+      - "kind=app"
+    links:
+      - db
+
